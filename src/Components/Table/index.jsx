@@ -7,9 +7,9 @@ export const Table = ({columns, data, action}) => {
     <div className={styles.tableSection}>
         <div className={styles.tableHeader}>
         {            
-            columns.map((name, id)=> 
+            Object.keys(columns).map((name, id)=>
                 name !== 'Дата' 
-                ? (<div onClick={()=>action(id)} key={id} className={styles.col}>{name}</div>)
+                ? (<div onClick={()=>action(name)} key={id} className={styles.col}>{name}</div>)
                 : (<div key={id} className={styles.col}>{name}</div>)
             )
         }  
