@@ -84,6 +84,25 @@ function App() {
 
   React.useEffect(() => {
     console.log('filter: ', searchValue, currentColumn, currentCondition);
+    const order = sortAsc ? 'asc' : 'desc';
+    axios
+      .get(
+        'https://table-react-server.herokuapp.com/getdata?page=' +
+          currentPage +
+          '?sort=' +
+          test[sortBy] +
+          '&order=' +
+          order,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then((res) => {
+        setData(res.data.data);
+        setNumPages(res.data.pages);
+      });
   }, [searchValue]);
 
   React.useEffect(() => {
