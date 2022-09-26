@@ -17,10 +17,10 @@ export const Table = ({columns, data, action}) => {
         {
             data.map((row) => (   
                 <div key={row.name} className={styles.row}>
-                  <div className={styles.col}>{row.date}</div>
-                  <div className={styles.col}>{row.name}</div>
-                  <div className={styles.col}>{row.count}</div>
-                  <div className={styles.col}>{row.distance}</div>
+                  <div className={styles.col}>{row._date}</div>
+                  <div className={styles.col}>{row._name}</div>
+                  <div className={styles.col}>{row._count}</div>
+                  <div className={styles.col}>{row._distance}</div>
                 </div>))
         }
 
