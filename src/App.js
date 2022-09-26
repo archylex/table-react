@@ -36,7 +36,7 @@ function App() {
     //axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/datas').then((res) => setData(res.data));
     axios
       .get('https://fierce-gorge-68484.herokuapp.com/getdata?page=1', {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       })
       .then((res) => {
         console.log(res.data);
@@ -66,7 +66,7 @@ function App() {
           '&order=' +
           order,
         {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
         },
       )
       .then((res) => {
