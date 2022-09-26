@@ -80,6 +80,10 @@ function App() {
     getData(currentPage, sortBy, sortAsc, searchValue, currentColumn, currentCondition);
   }, [sortBy, sortAsc, searchValue, currentPage]);
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchValue]);
+
   return (
     <div className="App">
       <div className="AppHeader">
