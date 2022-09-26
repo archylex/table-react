@@ -15,15 +15,45 @@ function App() {
   const [data, setData] = React.useState([]);
   const [currentColumn, setCurrentColumn] = React.useState('Колонка');
   const [currentCondition, setCurrentCondition] = React.useState('Условие');
-
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numPages, setNumPages] = React.useState(1);
   const [searchValue, setSearchValue] = React.useState('');
-
-  const test = ['_date', '_name', '_count', '_distance'];
-
   const [sortBy, setSortBy] = React.useState(0);
   const [sortAsc, setSortAsc] = React.useState(true);
+
+  // универсальный запрос
+  const getData = (_page, _sort, _order, _search, _column, _condition) => {
+    const test = {
+      Дата: '_date',
+      Название: '_name',
+      Количество: '_count',
+      Расстояние: '_distance',
+    };
+
+    const test2 = { равно: 'equals', содержит: 'contains', больше: 'more', меньше: 'less' };
+
+    const order = _order ? 'asc' : 'desc';
+    const sorting = _sort ? `&sort=${test[_sort]}&order=${order}` : '';
+    const filtering =
+      _search && _search.length > 0
+        ? `&search=${_search}&column=${test2[_column]}&condition=${test2[_condition]}`
+        : '';
+
+    let url = `https://api-table.herokuapp.com/getdata/?page=${_page}${sorting}${filtering}`;
+
+    axios
+      .get(url, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        setData(res.data.data);
+        setNumPages(res.data.pages);
+        setCurrentPage(_page);
+      });
+  };
 
   const onClickSortBy = (s) => {
     if (sortBy === s) {
@@ -33,21 +63,6 @@ function App() {
   };
 
   React.useEffect(() => {
-    //axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/datas').then((res) => setData(res.data));
-    axios
-      //.get('https://fierce-gorge-68484.herokuapp.com/getdata?page=1', {
-
-      .get('https://table-react-server.herokuapp.com/getdata?page=1', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data.data);
-        setNumPages(res.data.pages);
-      });
-
     axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/columns').then((res) => {
       setColumns(res.data);
       setCurrentColumn(res.data[0]);
@@ -57,57 +72,13 @@ function App() {
       setConditions(res.data);
       setCurrentCondition(res.data[0]);
     });
+
+    getData(1);
   }, []);
 
   React.useEffect(() => {
-    const order = sortAsc ? 'asc' : 'desc';
-    axios
-      .get(
-        'https://table-react-server.herokuapp.com/getdata?page=' +
-          currentPage +
-          '?sort=' +
-          test[sortBy] +
-          '&order=' +
-          order,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then((res) => {
-        setData(res.data.data);
-        setNumPages(res.data.pages);
-      });
-    console.log('sort:', sortBy);
-  }, [sortBy, sortAsc]);
-
-  React.useEffect(() => {
-    console.log('filter: ', searchValue, currentColumn, currentCondition);
-    const order = sortAsc ? 'asc' : 'desc';
-    axios
-      .get(
-        'https://table-react-server.herokuapp.com/getdata?page=' +
-          currentPage +
-          '?sort=' +
-          test[sortBy] +
-          '&order=' +
-          order,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then((res) => {
-        setData(res.data.data);
-        setNumPages(res.data.pages);
-      });
-  }, [searchValue]);
-
-  React.useEffect(() => {
-    console.log('page: ', currentPage);
-  }, [currentPage]);
+    getData(currentPage, sortBy, sortAsc, searchValue, currentColumn, currentCondition);
+  }, [sortBy, sortAsc, searchValue, currentPage]);
 
   return (
     <div className="App">
