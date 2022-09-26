@@ -13,8 +13,8 @@ function App() {
   const [columns, setColumns] = React.useState([]);
   const [conditions, setConditions] = React.useState([]);
   const [data, setData] = React.useState([]);
-  const [currentColumn, setCurrentColumn] = React.useState('Колонка');
-  const [currentCondition, setCurrentCondition] = React.useState('Условие');
+  const [currentColumn, setCurrentColumn] = React.useState('Дата');
+  const [currentCondition, setCurrentCondition] = React.useState('равно');
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numPages, setNumPages] = React.useState(1);
   const [searchValue, setSearchValue] = React.useState('');
@@ -51,7 +51,6 @@ function App() {
       .then((res) => {
         setData(res.data.data);
         setNumPages(res.data.pages);
-        setCurrentPage(_page);
       });
   };
 
@@ -73,16 +72,12 @@ function App() {
       setCurrentCondition(res.data[0]);
     });
 
-    getData(1);
+    setCurrentPage(1);
   }, []);
 
   React.useEffect(() => {
     getData(currentPage, sortBy, sortAsc, searchValue, currentColumn, currentCondition);
   }, [sortBy, sortAsc, searchValue, currentPage]);
-
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchValue]);
 
   return (
     <div className="App">
