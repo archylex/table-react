@@ -35,8 +35,12 @@ function App() {
   React.useEffect(() => {
     //axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/datas').then((res) => setData(res.data));
     axios
-      .get('https://fierce-gorge-68484.herokuapp.com/getdata?page=1', {
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      //.get('https://fierce-gorge-68484.herokuapp.com/getdata?page=1', {
+
+      .get('https://table-react-server.herokuapp.com/getdata?page=1', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
       .then((res) => {
         console.log(res.data);
@@ -59,14 +63,16 @@ function App() {
     const order = sortAsc ? 'asc' : 'desc';
     axios
       .get(
-        'https://fierce-gorge-68484.herokuapp.com/getdata?page=' +
+        'https://table-react-server.herokuapp.com/getdata?page=' +
           currentPage +
           '?sort=' +
           test[sortBy] +
           '&order=' +
           order,
         {
-          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
       )
       .then((res) => {
