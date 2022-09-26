@@ -9,7 +9,7 @@ export const DropdownMenu = ({name, data, action}) => {
             <button className={styles.dropbtn}>{name}</button>
             <div className={styles.content}>
                 {
-                    data.map((name, id)=>(<a onClick={()=>action(name)} key={id} href="#">{name}</a>))
+                    Object.keys(data).map((_name, id)=>(<a onClick={()=>action(_name)} key={id} href="#">{_name}</a>))
                 }                
             </div>
         </div>
