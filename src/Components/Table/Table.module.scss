@@ -1,0 +1,29 @@
+.tableSection {
+    display: table;
+    width: 100%;
+    border-collapse:separate;
+    border-spacing: 5px;
+}
+
+.tableHeader {
+    .col {
+        cursor: pointer;
+        text-align: center;
+    }
+}
+ 
+.tableSection > * {
+    display: table-row;
+  }
+  
+.col {
+    display: table-cell;
+    width: 25%;
+}
+
+.tableSection > *:first-child {
+    background-color: darkslategrey;
+    color: aliceblue;
+}
+
+
