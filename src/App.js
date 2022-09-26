@@ -23,20 +23,11 @@ function App() {
 
   // универсальный запрос
   const getData = (_page, _sort, _order, _search, _column, _condition) => {
-    const test = {
-      Дата: '_date',
-      Название: '_name',
-      Количество: '_count',
-      Расстояние: '_distance',
-    };
-
-    const test2 = { равно: 'equals', содержит: 'contains', больше: 'more', меньше: 'less' };
-
     const order = _order ? 'asc' : 'desc';
-    const sorting = _sort ? `&sort=${test[_sort]}&order=${order}` : '';
+    const sorting = _sort ? `&sort=${columns[_sort]}&order=${order}` : '';
     const filtering =
       _search && _search.length > 0
-        ? `&search=${_search}&column=${test[_column]}&condition=${test2[_condition]}`
+        ? `&search=${_search}&column=${columns[_column]}&condition=${conditions[_condition]}`
         : '';
 
     let url = `https://api-table.herokuapp.com/getdata/?page=${_page}${sorting}${filtering}`;
@@ -62,15 +53,29 @@ function App() {
   };
 
   React.useEffect(() => {
-    axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/columns').then((res) => {
-      setColumns(res.data);
-      setCurrentColumn(res.data[0]);
-    });
+    axios
+      .get('https://api-table.herokuapp.com/getcolumns', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        setColumns(res.data);
+        setCurrentColumn(Object.keys(res.data)[0]);
+      });
 
-    axios.get('https://632ca2eb5568d3cad889f40f.mockapi.io/conditions').then((res) => {
-      setConditions(res.data);
-      setCurrentCondition(res.data[0]);
-    });
+    axios
+      .get('https://api-table.herokuapp.com/getconditions', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        setConditions(res.data);
+        setCurrentCondition(Object.keys(res.data)[0]);
+      });
 
     setCurrentPage(1);
   }, []);
