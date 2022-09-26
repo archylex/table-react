@@ -36,7 +36,7 @@ function App() {
     const sorting = _sort ? `&sort=${test[_sort]}&order=${order}` : '';
     const filtering =
       _search && _search.length > 0
-        ? `&search=${_search}&column=${test2[_column]}&condition=${test2[_condition]}`
+        ? `&search=${_search}&column=${test[_column]}&condition=${test2[_condition]}`
         : '';
 
     let url = `https://api-table.herokuapp.com/getdata/?page=${_page}${sorting}${filtering}`;
@@ -90,7 +90,7 @@ function App() {
 
       <Table columns={columns} data={data} action={(s) => onClickSortBy(s)} />
 
-      <Pagination currentPage={currentPage} numPages={5} action={(n) => setCurrentPage(n)} />
+      <Pagination currentPage={currentPage} numPages={numPages} action={(n) => setCurrentPage(n)} />
     </div>
   );
 }
